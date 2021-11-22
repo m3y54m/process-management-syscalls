@@ -13,7 +13,7 @@ Using System Calls for Process Management in C:
 mkdir build
 cd build
 cmake ..
-cmake --build .
+make
 ```
 
 ## Resources
