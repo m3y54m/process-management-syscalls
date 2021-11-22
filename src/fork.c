@@ -13,6 +13,8 @@ int main(void)
 
     printf("Main Process ID: %d\n", main_pid);
 
+    printf("\n[ PARENT PROCESS INITIAL OPERATIONS ]\n");
+
     pid_t child_pid[MAX_CHILDREN];
     int i;
 
@@ -34,7 +36,7 @@ int main(void)
             printf("\n[ CHILD PROCESS #%d IS CREATED. (PID: %d) ]\n", i, getpid());
 
             char child_num[2];
-            sprintf(child_num, "%d", i+1);
+            sprintf(child_num, "%d", i + 1);
 
             char *argv[] = {"./test", child_num, NULL};
             // Execute the program
@@ -43,16 +45,15 @@ int main(void)
             // Exit the child process
             exit(0);
         }
-    }
 
-    printf("\n[ PARENT PROCESS OPERATIONS ]\n");
+        printf("\n[ PARENT PROCESS INTERMEDIATE OPERATIONS ]\n");
 
-    for (i = 0; i < MAX_CHILDREN; i++)
-    {
         // Wait for the child process to finish
         wait(NULL);
         printf("\n[ CHILD PROCESS #%d IS DESTROYED ]\n", i);
     }
+
+    printf("\n[ PARENT PROCESS FINAL OPERATIONS ]\n");
 
     return 0;
 }
