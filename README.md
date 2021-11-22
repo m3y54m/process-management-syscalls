@@ -1,2 +1,22 @@
-# process-management-syscalls
-Using System Calls for Process Management in C  (fork, exec, wait, and exit)
+# Process Management Syscalls in C
+
+Using System Calls for Process Management in C:
+
+- fork()
+- exec()
+- wait()
+- exit()
+
+## Build
+
+```console
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+
+## Resources
+
+- [System Call in OS (Operating System): What is, Types and Examples](https://www.guru99.com/system-call-operating-system.html)
+- [Process management system calls](http://linasm.sourceforge.net/docs/syscalls/process.php)
