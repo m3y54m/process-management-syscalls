@@ -4,21 +4,20 @@
 
 int main(int argc, char *argv[])
 {
-    int index;
+    int i;
     // Get the process ID of the current process
     pid_t pid = getpid();
     // Get the process ID of the parent process
     pid_t ppid = getppid();
 
-    printf("\n\t[ START: TEST PROGRAM ]\n");
-    printf("\tPID: %d\n", pid);
-    printf("\tPPID: %d\n", ppid);
-    printf("\targc = %d\n", argc);
+    printf("\n\t[ CHILD #%s ] [ START ]\n", argv[1]);
+    printf("\t[ CHILD #%s ] PID: %d\n", argv[1], pid);
+    printf("\t[ CHILD #%s ] PPID: %d\n", argv[1], ppid);
 
-    // Print the command line arguments
-    for (index = 0; index < argc; index++)
-        printf("\targv[%d] = %s\n", index, argv[index]);
+    for (i = 0; i < 5; i++)
+        printf("\t[ CHILD #%s ] %d\n", argv[1], (i + 1) * 10);
 
-    printf("\t[ END: TEST PROGRAM ]\n");
+    printf("\t[ CHILD #%s ] [ END ]\n", argv[1]);
+
     return 0;
 }

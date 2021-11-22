@@ -4,6 +4,8 @@
 #include <stdlib.h>    // for exit()
 #include <sys/wait.h>  // for wait()
 
+#define MAX_CHILDREN 3
+
 int main(void)
 {
     // Get the process ID of the current process
@@ -11,28 +13,45 @@ int main(void)
 
     printf("Main Process ID: %d\n", main_pid);
 
-    // Fork a child process
-    pid_t pid = fork();
+    pid_t child_pid[MAX_CHILDREN];
+    int i;
 
-    if (pid < 0)
+    for (i = 0; i < MAX_CHILDREN; i++)
     {
-        perror("Fork failed!\n");
-        // Exit with an error code
-        exit(1);
-    }
-    else if (pid == 0)
-    {
-        printf("\n[ THIS IS CHILD PROCESS ]\n");
+        // Create a child process
+        child_pid[i] = fork();
 
-        char *argv[] = {"./test", "a", "b", "c", NULL};
-        // Execute the program
-        execv("./test", argv);
+        // Check for errors
+        if (child_pid[i] == -1)
+        {
+            perror("fork()");
+            // Exit with an error code
+            exit(1);
+        }
+        // If the child process was created successfully
+        else if (child_pid[i] == 0)
+        {
+            printf("\n[ CHILD PROCESS #%d IS CREATED. (PID: %d) ]\n", i, getpid());
+
+            char child_num[2];
+            sprintf(child_num, "%d", i+1);
+
+            char *argv[] = {"./test", child_num, NULL};
+            // Execute the program
+            execv("./test", argv);
+
+            // Exit the child process
+            exit(0);
+        }
     }
-    else
+
+    printf("\n[ PARENT PROCESS OPERATIONS ]\n");
+
+    for (i = 0; i < MAX_CHILDREN; i++)
     {
-        printf("\n[ THIS IS PARENT PROCESS ]\nForked Process ID: %d\n", pid);
-        // Wait for child process to finish
+        // Wait for the child process to finish
         wait(NULL);
+        printf("\n[ CHILD PROCESS #%d IS DESTROYED ]\n", i);
     }
 
     return 0;
